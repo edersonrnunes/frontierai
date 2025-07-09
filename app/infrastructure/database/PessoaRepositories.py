@@ -32,13 +32,13 @@ class SQLAlchemyPessoaRepository(PessoaRepository):
         return [_to_entity(item) for item in db_items]
 
     def delete(self, pessoa_id: int) -> None:
-        db_pessoa = self._db.query(model.Item).filter(model.id == pessoa_id).first()
+        db_pessoa = self._db.query(model.Pessoa).filter(model.Pessoa.id == pessoa_id).first()
         if db_pessoa:
             self._db.delete(db_pessoa)
             self._db.commit()
     
     def update(self, pessoa: entities.Pessoa) -> entities.Pessoa:
-        db_pessoa = self._db.query(model.Pessoa).filter(model.Pessoa.id == model.id).first()
+        db_pessoa = self._db.query(model.Pessoa).filter(model.Pessoa.id == pessoa.id).first()
         if db_pessoa:
             db_pessoa.nome = pessoa.nome
             db_pessoa.sobrenome = pessoa.sobrenome
