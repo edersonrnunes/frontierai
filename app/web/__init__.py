@@ -1,0 +1,1 @@
+"""Módulo para a camada web (endpoints e dependências)."""
