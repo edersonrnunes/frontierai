@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Annotated
 
@@ -135,7 +138,7 @@ def delete_pessoa(
     pessoa_id: int,
     repo: PessoaRepositories.PessoaRepository = Depends(get_pessoa_repository)
 ):
-    print(f"Deleting pessoa with ID: {pessoa_id}")
+    logger.info(f"Deleting pessoa with ID: {pessoa_id}")
     puc = PessoaUseCases.DeletePessoa(repo)
     puc.execute(pessoa_id=pessoa_id)
     return
