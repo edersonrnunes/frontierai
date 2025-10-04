@@ -23,8 +23,6 @@ from app.infrastructure.database.Repositories import (
     TelefoneRepositories
 )
 
-#from app.infrastructure.security import token as token_service
-
 ### Dependências para repositórios e casos de uso
 def get_db() -> Generator[Session, None, None]:
     """Obtém uma sessão do banco de dados."""

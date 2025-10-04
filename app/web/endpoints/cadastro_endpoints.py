@@ -44,6 +44,15 @@ def read_root():
     """
     return {"message": "Bem-vindo à Frontier AI!"}
 
+@router.get("/health", tags=["Health"])
+def health_check(
+    repo: PessoaRepositories.PessoaRepository = Depends(get_pessoa_repository)
+):
+    pr = PessoaUseCases.GetPessoaById(repo)
+    pessoa = pr.execute(pessoa_id=1)
+    if not pessoa:
+        return {"status": "Database connection failed"}, status.HTTP_500_INTERNAL_SERVER_ERROR
+    return {"status": "ok"}
 
 ## Item
 @router.post("/items/", response_model=ItemDtos.Item, status_code=status.HTTP_201_CREATED, tags=["Items"])
