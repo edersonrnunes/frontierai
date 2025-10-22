@@ -21,7 +21,7 @@ jobs:
         with:
           # Additional arguments for the SonarScanner CLI
           args:
-            -Dsonar.projectKey=edersonrnunes_frontierai
+            -Dsonar.projectKey=edersonrnunes_frontierai-backend
             -Dsonar.organization=edersonrnunes
           projectBaseDir: .
 
