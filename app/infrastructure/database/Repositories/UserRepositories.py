@@ -42,6 +42,14 @@ class SQLAlchemyUserRepository(UserRepository):
         return None
 
 
+    def get_by_email(self, email: str) -> entities.Usuario | None:
+        """Busca um usuário pelo email no banco de dados."""
+        user_model = self._db.query(model.Usuario).filter(model.Usuario.email == email).first()
+        if user_model:
+            return _to_entity(user_model)
+        return None
+
+
     def update(self, usuario: entities.Usuario) -> entities.Usuario:
         """Atualiza um usuário existente no banco de dados."""
         db_usuario = self._db.query(model.Usuario).filter(model.Usuario.id == usuario.id).first()

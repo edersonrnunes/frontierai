@@ -18,3 +18,8 @@ class UserRepository(ABC):
     def get_by_username(self, username: str) -> entities.Usuario | None:
         """Busca um usuário pelo nome de usuário."""
         raise NotImplementedError
+    
+    @abstractmethod
+    def get_by_email(self, email: str) -> entities.Usuario | None:
+        """Busca um usuário pelo email."""
+        raise NotImplementedError

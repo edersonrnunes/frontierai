@@ -96,7 +96,13 @@ class CreateUser:
         if self._user_repo.get_by_username(user_create.username):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Username already registered",
+                detail="Usuário já foi registrado",
+            )
+        
+        if self._user_repo.get_by_email(user_create.email):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email já foi registrado",
             )
 
         hashed_password = CriaTokenAcesso.get_password_hash(user_create.password)

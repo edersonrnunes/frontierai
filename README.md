@@ -1,36 +1,46 @@
 # frontierai Template
+
 Esse é o template para estruturar sua API REST utilizando os princípios do Domain-Driven Design (DDD). Isso tornará sua aplicação mais robusta, escalável e alinhada com as regras de negócio.
 
 Vou refatorar o projeto fornecido para seguir uma arquitetura em camadas, um padrão comum em DDD, separando as responsabilidades em:
 
 ## Como executar o projeto
+
 # Execute no terminal:
+
 Navegue para dentro do diretório do projeto
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate  # No Windows: .venv\Scripts\activate
 source .venv/bin/deactivate # Para desativar o ambiente virtual
 ```
+
 # Instal dependencias
+
 pip install -r requirements.txt
+
 # Rodar o projeto:
+
 docker run --name some-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
 uvicorn main:app --reload
 
-
 ## Como executar os testes
+
 # Execute no terminal a partir do diretório raiz:
+
 ```bash
 pytest
 ```
 
-
 # Para iniciar o projeto é necessário ter instalado na máquina
+
 1. python3
 2. pip
 3. Docker CE
 
 # extensions VSCode
+
 1. Container Tools
 2. Docker
 3. Pylance
@@ -39,14 +49,15 @@ pytest
 6. Python Extension Pack
 7. Python Ident
 
-
 # Domain (Domínio):
-    O coração da aplicação. Contém as entidades, objetos de valor e a lógica de negócio principal, sem depender de detalhes de infraestrutura (como banco de dados ou frameworks web).
-# Application (Aplicação):
-    Orquestra as tarefas e casos de uso. Utiliza o domínio para executar as ações solicitadas pelas camadas externas (como a API).
-# Infrastructure (Infraestrutura):
-    Contém os detalhes técnicos, como o framework web (FastAPI), implementações de repositórios (SQLAlchemy), configuração de banco de dados, etc.
 
+O coração da aplicação. Contém as entidades, objetos de valor e a lógica de negócio principal, sem depender de detalhes de infraestrutura (como banco de dados ou frameworks web).
+# Application (Aplicação):
+
+Orquestra as tarefas e casos de uso. Utiliza o domínio para executar as ações solicitadas pelas camadas externas (como a API).
+# Infrastructure (Infraestrutura):
+
+Contém os detalhes técnicos, como o framework web (FastAPI), implementações de repositórios (SQLAlchemy), configuração de banco de dados, etc.
 A nova estrutura de arquivos ficará assim:
 .
 ├── app/
@@ -76,20 +87,21 @@ A nova estrutura de arquivos ficará assim:
 ├── main.py
 └── requirements.txt
 
-
 ## Documen
+
 https://fastapi.tiangolo.com/tutorial/response-model/
 
 # docker compose
+
 docker-compose up --build
 docker-compose down
 
- # criando container PostgreSQL para debug local
+# criando container PostgreSQL para debug local
+
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 
 docker run --name some-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
-
 
 Como Executar
 Salve os arquivos acima na estrutura de pastas correta.
@@ -108,4 +120,6 @@ http://127.0.0.1:8000/redoc
 Lá você poderá ver e interagir com seus endpoints POST /items/ e GET /items/, com schemas, exemplos e a capacidade de testá-los diretamente pelo navegador.
 
 # Para gerar uma chave secreta aleatória segura, use o comando:
+
 openssl rand -hex 32
+
