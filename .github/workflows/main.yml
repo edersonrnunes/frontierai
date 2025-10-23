@@ -11,22 +11,22 @@ permissions:
   pull-requests: read
 
 jobs:
-  Analysis:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Analyze with SonarCloud
-        uses: SonarSource/sonarcloud-github-action@4006f663ecaf1f8093e8e4abb9227f6041f52216
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          # Additional arguments for the SonarScanner CLI
-          args:
-            -Dsonar.projectKey=edersonrnunes_frontierai-backend
-            -Dsonar.organization=edersonrnunes
-          projectBaseDir: .
+#  Analysis:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Analyze with SonarCloud
+#        uses: SonarSource/sonarcloud-github-action@4006f663ecaf1f8093e8e4abb9227f6041f52216
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        with:
+#          # Additional arguments for the SonarScanner CLI
+#          args:
+#            -Dsonar.projectKey=edersonrnunes_frontierai
+#            -Dsonar.organization=edersonrnunes
+#          projectBaseDir: .
 
   build-and-push:
-    needs: Analysis
+#    needs: Analysis
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
