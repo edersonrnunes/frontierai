@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
 
-###########################################################################################################
 ## Código para utilizar Supabase como banco de dados PostgreSQL
-
 # Fetch variables
 USER = os.getenv("user")
 PASSWORD = os.getenv("password")
@@ -28,9 +26,8 @@ try:
         print("Connection successful!")
 except Exception as e:
     print(f"Failed to connect: {e}")
-###########################################################################################################
 
-################################## Descomentar se não utilizar Supabase ###################################
+## Descomentar se não utilizar Supabase ##
 ## Este código utiliza DB PostgreSQL utilizando containers Docker
 ## Conexão local para debug (Container local)
 #SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost:5432/mydatabase"
@@ -39,7 +36,6 @@ except Exception as e:
 #SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL") 
 
 #engine = create_engine(SQLALCHEMY_DATABASE_URL)
-###########################################################################################################
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
