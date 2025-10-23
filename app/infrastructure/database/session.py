@@ -2,6 +2,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import OperationalError, DBAPIError
 from dotenv import load_dotenv
 
 load_dotenv(verbose=True)
@@ -24,8 +25,19 @@ engine = create_engine(DATABASE_URL)
 try:
     with engine.connect() as connection:
         print("Connection successful!")
+except OperationalError as e:
+    print("Could not connect to the database. Check connection parameters.")
+    # Log the specific error for debugging
+    print(f"Error details: {e}")
+except DBAPIError as e:
+    # Catch other DBAPI-related errors
+    print("A database error occurred.")
+    print(f"Error details: {e}")
 except Exception as e:
-    print(f"Failed to connect: {e}")
+    # Fallback for truly unexpected errors
+    print(f"An unexpected error occurred: {e}")
+    # Re-raise the exception after logging if appropriate
+    raise
 
 ## Descomentar se não utilizar Supabase ##
 ## Este código utiliza DB PostgreSQL utilizando containers Docker
@@ -33,7 +45,7 @@ except Exception as e:
 #SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost:5432/mydatabase"
 ## Conexão para utilizar dentro do Docker Compose
 #SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/mydatabase")
-#SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL") 
+#SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
 #engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
