@@ -1,6 +1,8 @@
 fastapi
 uvicorn[standard]
 sqlalchemy
+pydantic[email]
+python-multipart
 psycopg2-binary
 python-dotenv
 pyjwt # JWT for authentication Doc: https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/#about-jwt Teste: https://jwt.io/
