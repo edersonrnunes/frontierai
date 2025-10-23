@@ -1,1 +1,2 @@
-"""Módulos de segurança para hashing e tokens."""
+# __init__.py
+print("Inicializando o pacote Infraestrutura Security")

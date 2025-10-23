@@ -24,7 +24,7 @@ ENGINE = create_engine(DATABASE_URL)
 # Test the connection
 try:
     with ENGINE.connect() as connection:
-        print("Connection successful!")
+        print("PostgreSQL connection successful!")
 except OperationalError as exception:
     print("Could not connect to the database. Check connection parameters.")
     # Log the specific error for debugging

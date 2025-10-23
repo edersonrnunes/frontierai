@@ -1,1 +1,2 @@
-"""Implementações concretas dos Models."""
+# __init__.py
+print("Inicializando o pacote Infraestrutura Database Models")

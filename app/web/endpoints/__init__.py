@@ -1,2 +1,2 @@
 # __init__.py
-print("Inicializando o pacote endpoints")
+print("Inicializando o pacote Web Endpoints")

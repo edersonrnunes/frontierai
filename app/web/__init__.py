@@ -1,1 +1,2 @@
-"""Módulo para a camada web (endpoints e dependências)."""
+# __init__.py
+print("Inicializando o pacote Web Dependencias")
