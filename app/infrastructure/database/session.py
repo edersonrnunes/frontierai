@@ -19,23 +19,23 @@ DBNAME = os.getenv("dbname")
 DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
 
 # Create the SQLAlchemy engine
-engine = create_engine(DATABASE_URL)
+ENGINE = create_engine(DATABASE_URL)
 
 # Test the connection
 try:
-    with engine.connect() as connection:
+    with ENGINE.connect() as connection:
         print("Connection successful!")
-except OperationalError as e:
+except OperationalError as exception:
     print("Could not connect to the database. Check connection parameters.")
     # Log the specific error for debugging
-    print(f"Error details: {e}")
-except DBAPIError as e:
+    print(f"Error details: {exception}")
+except DBAPIError as exception:
     # Catch other DBAPI-related errors
     print("A database error occurred.")
-    print(f"Error details: {e}")
-except Exception as e:
+    print(f"Error details: {exception}")
+except Exception as exception:
     # Fallback for truly unexpected errors
-    print(f"An unexpected error occurred: {e}")
+    print(f"An unexpected error occurred: {exception}")
     # Re-raise the exception after logging if appropriate
     raise
 
@@ -49,5 +49,5 @@ except Exception as e:
 
 #engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 Base = declarative_base()
