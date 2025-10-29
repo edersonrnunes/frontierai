@@ -23,7 +23,30 @@ pip install -r requirements.txt
 # Rodar o projeto:
 
 docker run --name some-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+
+# Executar local para desenvolvimento e debug
 uvicorn main:app --reload
+
+
+# docker build local
+docker build -it frontierai-backend .
+# Rodar o projeto local:
+docker run -it -p 8000:8000 frontierai-backend:latest /bin/bash
+
+# Executar o container do último commit
+# Pull última versão
+docker pull edersonnunes/frontierai-backend:latest
+# Executar container local
+docker run -it -p 8000:8000 edersonnunes/frontierai-backend:latest /bin/bash
+
+export user=postgres.hcywzsyhaykbgppvnykt 
+export password=6O1izkH9ENXi5azG 
+export host=aws-1-us-east-2.pooler.supabase.com 
+export port=5432 
+export dbname=postgres
+export SECRET_KEY="36d60414ee9a499ced4b489761646081a7a50faeaa904a1f11d9adfe9027fccf"
+export ALGORITHM="HS256"
+export ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 ## Como executar os testes
 
