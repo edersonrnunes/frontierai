@@ -2,13 +2,18 @@ name: Pipeline build-and-push
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "staging" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "staging" ]
   workflow_dispatch:
 
 permissions:
   pull-requests: read
+  contents: read
+  pages: write
+  packages: write
+  attestations: write
+  id-token: write
 
 jobs:
 #  Analysis:
@@ -26,7 +31,6 @@ jobs:
 #          projectBaseDir: .
 
   build-and-push:
-#    needs: Analysis
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -69,7 +73,7 @@ jobs:
     - name: Generate artifact attestation
       uses: actions/attest-build-provenance@v3
       with:
-        subject-name: index.docker.io/${{ secrets.DOCKER_USERNAME }}/frontierai-backend:${{ github.ref_name }}
+        subject-name: index.docker.io/${{ secrets.DOCKER_USERNAME }}/frontierai-backend
         subject-digest: ${{ steps.push.outputs.digest }}
         push-to-registry: true
 
