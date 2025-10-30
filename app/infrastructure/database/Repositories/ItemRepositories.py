@@ -33,6 +33,10 @@ class SQLAlchemyItemRepository(ItemRepositories.ItemRepository):
     def listItens(self, skip: int = 0, limit: int = 100) -> list[entities.Item]:
         db_items = self._db.query(model.Item).offset(skip).limit(limit).all()
         return [_to_entity(item) for item in db_items]
+    
+    def get_items_by_color(self, color: str) -> list[entities.Item]:
+        db_items = self._db.query(model.Item).filter(model.Item.color == color).all()
+        return [_to_entity(item) for item in db_items]
 
 
     def delete(self, item_id: int) -> None:

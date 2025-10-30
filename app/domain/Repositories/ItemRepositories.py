@@ -20,3 +20,7 @@ class ItemRepository(ABC):
     @abstractmethod
     def update(self, item: entities.Item) -> entities.Item:
         raise NotImplementedError
+
+    @abstractmethod
+    def get_items_by_color(self, color: str) -> List[entities.Item]: 
+        raise NotImplementedError

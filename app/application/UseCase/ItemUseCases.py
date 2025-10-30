@@ -19,4 +19,11 @@ class ListItemsUseCase:
         self._repo = item_repo
 
     def execute(self, skip: int = 0, limit: int = 100) -> list[ItemEntities.Item]:
-        return self._repo.list(skip=skip, limit=limit)
+        return self._repo.listItens(skip=skip, limit=limit)
+    
+class GetItemsByColorUseCase:
+    def __init__(self, item_repo: ItemRepositories.ItemRepository):
+        self._repo = item_repo
+
+    def execute(self, color: str) -> list[ItemEntities.Item]:
+        return self._repo.get_items_by_color(color)
