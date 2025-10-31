@@ -8,7 +8,8 @@ def _to_entity(db_item: model.Item) -> entities.Item:
     return entities.Item(
         id=db_item.id,
         name=db_item.name,
-        description=db_item.description
+        description=db_item.description, 
+        color=db_item.color
     )
 
 
@@ -51,6 +52,7 @@ class SQLAlchemyItemRepository(ItemRepositories.ItemRepository):
         if db_item:
             db_item.name = item.name
             db_item.description = item.description
+            db_item.color = item.color
             self._db.commit()
             self._db.refresh(db_item)
             return _to_entity(db_item)
