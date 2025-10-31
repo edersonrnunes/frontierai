@@ -8,9 +8,9 @@ def _to_entity(db_pessoa: model.Pessoa) -> entities.Pessoa:
     """Mapeia o modelo SQLAlchemy para a entidade de domínio."""
     return entities.Pessoa(
         id=db_pessoa.id,
-        nome=db_pessoa.nome,
-        sobrenome=db_pessoa.sobrenome,
+        nome_completo=db_pessoa.nome_completo,
         cpf=db_pessoa.cpf,
+        data_nascimento=db_pessoa.data_nascimento,
         usuario_id=db_pessoa.usuario_id
     )
 
@@ -48,9 +48,9 @@ class SQLAlchemyPessoaRepository(PessoaRepository):
     def update(self, pessoa: entities.Pessoa) -> entities.Pessoa:
         db_pessoa = self._db.query(model.Pessoa).filter(model.Pessoa.id == pessoa.id).first()
         if db_pessoa:
-            db_pessoa.nome = pessoa.nome
-            db_pessoa.sobrenome = pessoa.sobrenome
+            db_pessoa.nome_completo = pessoa.nome_completo
             db_pessoa.cpf = pessoa.cpf
+            db_pessoa.data_nascimento = pessoa.data_nascimento
             db_pessoa.usuario_id = pessoa.usuario_id
             self._db.commit()
             self._db.refresh(db_pessoa)
