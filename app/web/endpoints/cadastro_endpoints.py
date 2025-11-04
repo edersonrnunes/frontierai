@@ -77,6 +77,18 @@ def read_items(
     items = item_use_cases.execute(skip=skip, limit=limit)
     return items
 
+@router.get("/items/color/{color}", response_model=list[ItemDtos.Item], tags=["Items"])
+def read_items_by_color(
+    current_user: Annotated[UserEntities.Usuario, Depends(get_current_active_user)],
+    color: str,
+    repo: ItemRepositories.ItemRepository = Depends(get_item_repository)
+):
+    print(f"User '{current_user.username}' reading items with color={color}")
+    item_use_cases = ItemUseCases.GetItemsByColorUseCase(repo)
+    items = item_use_cases.execute(color=color)
+    return items
+
+
 ## Pessoa
 @router.post("/usuario/{usuario_id}/pessoas/", response_model=PessoaDtos.Pessoa, status_code=status.HTTP_201_CREATED, tags=["Pessoas"])
 def create_pessoa_for_usuario(

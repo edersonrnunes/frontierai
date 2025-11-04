@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict
 class ItemBase(BaseModel):
     name: str
     description: str | None = None
+    color: str | None = None
 
 
 # Schema usado para criar um Item (não precisa de ID, pois é gerado pelo DB).

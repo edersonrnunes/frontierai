@@ -11,8 +11,8 @@ Vou refatorar o projeto fornecido para seguir uma arquitetura em camadas, um pad
 Navegue para dentro do diretório do projeto
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate  # No Windows: .venv\Scripts\activate
+python -m venv .venv
+source .venv/Scripts/activate  # No Windows: .venv\Scripts\activate
 source .venv/bin/deactivate # Para desativar o ambiente virtual
 ```
 
