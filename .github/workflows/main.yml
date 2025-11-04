@@ -2,13 +2,18 @@ name: Pipeline build-and-push
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "staging" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop", "staging" ]
   workflow_dispatch:
 
 permissions:
   pull-requests: read
+  contents: read
+  pages: write
+  packages: write
+  attestations: write
+  id-token: write
 
 jobs:
 #  Analysis:
@@ -26,7 +31,6 @@ jobs:
 #          projectBaseDir: .
 
   build-and-push:
-#    needs: Analysis
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -42,8 +46,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-#    - name: Submit dependencies
-#      uses: advanced-security/dependency-submission-action@v3 # Example action
+    - name: Check out the repo
+      uses: actions/checkout@v5
 
     - name: Log in to Docker Hub
       uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
@@ -51,12 +55,36 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: ${{ secrets.DOCKER_USERNAME }}/frontierai-backend
+        tags: |
+          type=ref,event=branch
+          type=semver,pattern={{version}}
+          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+
     - name: Build and push Docker image
+      id: push
       uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/frontierai-backend:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/frontierai-backend:${{ github.run_id }}
+        labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.title=frontiearia-backend
+            org.opencontainers.image.description=Imagem Docker para a aplicacao Python FastAPI
+            org.opencontainers.image.vendor=FrontierAI
+            ${{ steps.meta.outputs.labels }}
+
+    - name: Generate artifact attestation
+      uses: actions/attest-build-provenance@v3
+      with:
+        subject-name: index.docker.io/${{ secrets.DOCKER_USERNAME }}/frontierai-backend
+        subject-digest: ${{ steps.push.outputs.digest }}
+        push-to-registry: true
 
 #  deploy:
 #    needs: build-and-push
