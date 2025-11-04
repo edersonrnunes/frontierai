@@ -10,8 +10,11 @@ def _to_entity(db_telefone: model.Telefone) -> entities.Telefone:
     """Mapeia o modelo SQLAlchemy para a entidade de domínio."""
     return entities.Telefone(
         id=db_telefone.id,
+        ddi=db_telefone.ddi,
+        ddd=db_telefone.ddd,
         numero=db_telefone.numero,
-        tipo=db_telefone.tipo,
+        tipo_linha=db_telefone.tipo_linha,
+        tipo_uso=db_telefone.tipo_uso,
         pessoa_id=db_telefone.pessoa_id,
     )
 
