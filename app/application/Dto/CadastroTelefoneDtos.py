@@ -1,4 +1,6 @@
 from pydantic import BaseModel, ConfigDict
+from app.domain.Enumeration.Enumeration import TipoLinha, TipoUso
+
 
 
 # Schema base para o Telefone, com os campos comuns.
@@ -6,8 +8,8 @@ class CadastroTelefoneBase(BaseModel):
     ddi: int | None = None
     ddd: int | None = None
     numero: str
-    tipo_linha: int   # 1 = celular, 2 = fixo
-    tipo_uso: int     # 1 = pessoal, 2 = comercial
+    tipo_linha: TipoLinha   # 1 = celular, 2 = fixo, 3 = whatsapp
+    tipo_uso: TipoUso     # 1 = pessoal, 2 = comercial
     
 
 # Schema usado para criar um Telefone.

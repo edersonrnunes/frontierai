@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-import app.domain.Enumeration.Enumeration as TipoCelular
+from app.domain.Enumeration.Enumeration import TipoLinha, TipoUso
 
 @dataclass
 class Telefone:
@@ -7,6 +7,6 @@ class Telefone:
     ddi: int | None
     ddd: int | None
     numero: str | None
-    tipo_linha: int   # 1 = celular, 2 = fixo
-    tipo_uso: int     # 1 = pessoal, 2 = comercial
+    tipo_linha: TipoLinha   # 1 = celular, 2 = fixo, 3 = whatsapp
+    tipo_uso: TipoUso     # 1 = pessoal, 2 = comercial
     pessoa_id: int

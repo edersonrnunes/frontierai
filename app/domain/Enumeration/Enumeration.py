@@ -1,12 +1,11 @@
 from enum import Enum
 
 
-class TipoEmpresa(Enum):
-    COMERCIAL = "comercial"
-    RESIDENCIAL = "residencial"
-
-
-class TipoCelular(Enum):
-    CELULAR = "celular"
-    FIXO = "fixo"
-    WHATSAPP = "whatsapp"
+class TipoLinha(Enum):
+    CELULAR = 1
+    FIXO = 2
+    WHATSAPP = 3 
+    
+class TipoUso(Enum):
+    PESSOAL = 1
+    COMERCIAL = 2
