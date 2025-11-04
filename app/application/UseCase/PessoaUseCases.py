@@ -30,9 +30,9 @@ class CreatePessoa:
     def execute(self, pessoa_create: PessoaDtos.PessoaCreate) -> PessoaEntities.Pessoa:
         pessoa_entity = PessoaEntities.Pessoa(
             id=None,
-            nome=pessoa_create.nome,
-            sobrenome=pessoa_create.sobrenome,
-            cpf=pessoa_create.cpf
+            nome_completo=pessoa_create.nome_completo,
+            cpf=pessoa_create.cpf,
+            data_nascimento=pessoa_create.data_nascimento,
         )
         return self._repo.add(pessoa_entity)
 
