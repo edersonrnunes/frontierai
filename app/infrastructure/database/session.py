@@ -39,15 +39,5 @@ except Exception as exception:
     # Re-raise the exception after logging if appropriate
     raise
 
-## Descomentar se não utilizar Supabase ##
-## Este código utiliza DB PostgreSQL utilizando containers Docker
-## Conexão local para debug (Container local)
-#SQLALCHEMY_DATABASE_URL = "postgresql://user:password@localhost:5432/mydatabase"
-## Conexão para utilizar dentro do Docker Compose
-#SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/mydatabase")
-#SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
-
-#engine = create_engine(SQLALCHEMY_DATABASE_URL)
-
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=ENGINE)
 Base = declarative_base()
