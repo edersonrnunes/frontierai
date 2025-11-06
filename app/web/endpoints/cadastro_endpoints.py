@@ -7,13 +7,15 @@ from typing import Annotated
 from app.application.UseCase import (
     PessoaUseCases,
     EnderecoUseCases,
-    ItemUseCases
+    ItemUseCases,
+    CadastroTelefoneUseCases
 )
 
 from app.application.Dto import (
     EnderecoDtos,
     ItemDtos,
-    PessoaDtos
+    PessoaDtos,
+    CadastroTelefoneDtos
 )
 
 from app.domain.Entities import (
@@ -24,7 +26,8 @@ from app.domain.Repositories import (
     PessoaRepositories,
     EnderecoRepositories,
     ItemRepositories,
-    UserRepositories
+    UserRepositories,
+    TelefoneRepositories
 )
 
 from app.web.dependencies import (
@@ -32,7 +35,8 @@ from app.web.dependencies import (
     get_item_repository,
     get_pessoa_repository,
     get_current_active_user,
-    get_autenticacao_repository
+    get_autenticacao_repository,
+    get_telefone_repository
 )
 
 router = APIRouter()
@@ -205,3 +209,30 @@ def delete_endereco(
     endereco_use_cases = EnderecoUseCases.DeleteEndereco(repo)
     endereco_use_cases.execute(endereco_id=endereco_id)
     return
+
+## Telefone
+@router.post(
+    "/usuario/telefone/",
+    response_model=CadastroTelefoneDtos.CadastroTelefoneResponse,
+    status_code=status.HTTP_201_CREATED,
+    tags=["Telefones"]
+)
+def create_telefone_for_current_user(
+    current_user: Annotated[UserEntities.Usuario, Depends(get_current_active_user)],  
+    telefone_dto: CadastroTelefoneDtos.CadastroTelefoneCreate,  
+    telefone_repo: TelefoneRepositories.TelefoneRepository = Depends(get_telefone_repository),
+    pessoa_repo: PessoaRepositories.PessoaRepository = Depends(get_pessoa_repository),
+    user_repo: UserRepositories.UserRepository = Depends(get_autenticacao_repository),
+):
+    """
+    Cria um telefone vinculado ao usuário logado.
+    Faz validação de número, DDD, DDI e tipo de uso/linha.
+    """
+    logger.info(f"Criando telefone para o usuário '{current_user.username}' com dados: {telefone_dto}")
+    
+    use_case = CadastroTelefoneUseCases.CreateTelefoneUsuario(telefone_repo, pessoa_repo, user_repo)
+
+    telefone = use_case.execute(current_user.id, telefone_dto)
+
+    logger.info(f"Telefone criado com sucesso para o usuário '{current_user.username}': {telefone}")
+    return telefone

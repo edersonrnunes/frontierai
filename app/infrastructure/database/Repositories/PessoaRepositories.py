@@ -31,6 +31,13 @@ class SQLAlchemyPessoaRepository(PessoaRepository):
     def get_by_id(self, pessoa_id: int) -> entities.Pessoa | None:
         pessoa_item = self._db.query(model.Pessoa).filter(model.Pessoa.id == pessoa_id).first()
         return _to_entity(pessoa_item) if pessoa_item else None
+    
+    def get_by_user_id(self, usuario_id: int) -> entities.Pessoa | None:
+        # Busca uma pessoa associada a um usuário específico (via usuario_id).
+        db_pessoa = self._db.query(model.Pessoa).filter(model.Pessoa.usuario_id == usuario_id).first()
+        # Se encontrou a pessoa, converte o modelo do banco (SQLAlchemy) para entidade de domínio
+        return _to_entity(db_pessoa) if db_pessoa else None
+
 
 
     def list(self, skip: int = 0, limit: int = 100) -> list[entities.Pessoa]:

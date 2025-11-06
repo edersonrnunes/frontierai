@@ -4,7 +4,8 @@ from app.application.Dto import CadastroTelefoneDtos
 from app.domain.Entities import TelefoneEntities
 from app.domain.Repositories import (
     PessoaRepositories,
-    TelefoneRepositories
+    TelefoneRepositories,
+    UserRepositories
 )
 
 
@@ -24,9 +25,60 @@ class CreateTelefone:
             **telefone_create.model_dump()
         )
         return self._telefone_repo.add(telefone_entity)
+    
+class CreateTelefoneUsuario:
+    
+    def __init__(
+        self,
+        telefone_repo: TelefoneRepositories.TelefoneRepository,
+        pessoa_repo: PessoaRepositories.PessoaRepository,
+        usuario_repo: UserRepositories.UserRepository
+    ):
+        self._telefone_repo = telefone_repo
+        self._pessoa_repo = pessoa_repo
+        self._usuario_repo = usuario_repo
 
 
-class ListTelefones:
+    def execute(self, usuario_id: int, telefone_create: CadastroTelefoneDtos.CadastroTelefoneCreate) -> TelefoneEntities.Telefone:
+        
+        usuario = self._usuario_repo.get_by_id(usuario_id)
+        if not usuario:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Usuário com id {usuario_id} não encontrado"
+            )
+        pessoa = self._pessoa_repo.get_by_user_id(usuario_id)
+        if not pessoa:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Pessoa associada ao usuário {usuario_id} não encontrada"
+            )
+
+        numero = telefone_create.numero
+
+        numero_limpo = ''.join(filter(str.isdigit, numero))
+
+        if len(numero_limpo) != 9:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="O número de telefone deve conter exatamente 9 dígitos (sem contar DDD e DDI)."
+            )
+
+        telefone_entity = TelefoneEntities.Telefone(
+            id=None,
+            ddi=telefone_create.ddi,
+            ddd=telefone_create.ddd,
+            numero=numero_limpo,
+            tipo_linha=telefone_create.tipo_linha,
+            tipo_uso=telefone_create.tipo_uso,
+            pessoa_id=pessoa.id  # associa o telefone à pessoa do usuário logado
+        )
+
+        return self._telefone_repo.add(telefone_entity)
+
+
+
+class ListTelefonePorUsuario:
     def __init__(self, telefone_repo: TelefoneRepositories.TelefoneRepository):
         self._repo = telefone_repo
 
