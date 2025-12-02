@@ -1,12 +1,11 @@
 from pydantic import BaseModel, ConfigDict
-
+from datetime import date
 
 # Schema base para o Item, com os campos comuns.
 class PessoaBase(BaseModel):
     nome_completo: str
     cpf: str
     data_nascimento: date | None = None
-
 
 
 # Schema usado para criar um Item (não precisa de ID, pois é gerado pelo DB).
